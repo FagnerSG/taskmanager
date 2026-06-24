@@ -13,10 +13,10 @@ public class UsuarioEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long usuarioId;
 
     @Column(nullable = false)
-    private String name;
+    private String username;
 
     @Column(nullable = false)
     private String email;
@@ -27,27 +27,27 @@ public class UsuarioEntity {
     public UsuarioEntity() {
     }
 
-    public UsuarioEntity(Long id, String name, String email, String senha) {
-        this.id = id;
-        this.name = name;
+    public UsuarioEntity(Long usuarioId, String username, String email, String senha) {
+        this.usuarioId = usuarioId;
+        this.username = username;
         this.email = email;
         this.senha = senha;
     }
 
-    public Long getId() {
-        return id;
+    public Long getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
