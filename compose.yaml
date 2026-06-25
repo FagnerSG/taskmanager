@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   db:
+    hostname: servidor_mysql
     image: mysql:8
     container_name: taskmanager-mysql
     restart: always
@@ -11,6 +12,6 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-
 volumes:
-  mysql_data:   
+  mysql_data:
+    driver: local
