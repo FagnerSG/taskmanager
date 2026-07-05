@@ -1,11 +1,9 @@
 package com.fagnersgx.taskmanager.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "USUARIO")
@@ -23,6 +21,9 @@ public class UsuarioEntity {
 
     @Column(nullable = false)
     private String senha;
+
+    @OneToMany(mappedBy = "taskId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TasksEntity> tasksLists = new ArrayList<>();
 
     public UsuarioEntity() {
     }
@@ -66,4 +67,11 @@ public class UsuarioEntity {
         this.senha = senha;
     }
 
+    public List<TasksEntity> getTasksLists() {
+        return tasksLists;
+    }
+
+    public void setTasksLists(List<TasksEntity> tasksLists) {
+        this.tasksLists = tasksLists;
+    }
 }
