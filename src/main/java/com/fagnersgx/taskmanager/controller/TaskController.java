@@ -3,13 +3,12 @@ package com.fagnersgx.taskmanager.controller;
 import com.fagnersgx.taskmanager.entity.TasksEntity;
 import com.fagnersgx.taskmanager.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/tasks")
 public class TaskController {
@@ -22,8 +21,33 @@ public class TaskController {
     }
 
     @PostMapping(path="/addTask")
-    public TasksEntity createTask(@RequestBody TasksEntity novaTasksEntity) {
+    public ResponseEntity<TasksEntity> createTask(@RequestBody TasksEntity novaTasksEntity) {
         TasksEntity novoTask = taskService.salvarTask(novaTasksEntity);
-        return novoTask;
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoTask);
     }
+
+    @GetMapping(path="/listTask")
+    public ResponseEntity<List<TasksEntity>> getAllTask() {
+        List<TasksEntity> listTask = taskService.listarTodasTask();
+        return ResponseEntity.ok().body(listTask);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TasksEntity> atualizarTask(
+            @PathVariable Long id,
+            @RequestBody TasksEntity taskAtualizada) {
+
+        TasksEntity task = taskService.atualizarTask(id, taskAtualizada);
+
+        return ResponseEntity.ok(task);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarTask(@PathVariable Long id) {
+
+        taskService.deletarTask(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum TaskStatus {
-    AGUARDANDO_INICIO,
-    EXUCUTANDO,
-    CONCLUIDO;
+    PENDENTE,
+    EXECUTANDO,
+    CONCLUIDA
 }

@@ -3,12 +3,14 @@ package com.fagnersgx.taskmanager.entity;
 import com.fagnersgx.taskmanager.entity.enums.TaskPriority;
 import com.fagnersgx.taskmanager.entity.enums.TaskStatus;
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "TASKS")
 public class TasksEntity {
 
@@ -22,18 +24,19 @@ public class TasksEntity {
     @Column(nullable = false)
     private String taskDesk;
 
-    @Column(nullable = false)
-    private Date taskInicio;
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime taskInicio;
 
-    @Column(nullable = false)
-    private Date taskFim;
+    @Column(nullable = true)
+    private LocalDateTime taskFim;
 
-    @Enumerated
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column()
     private TaskStatus status;
 
-    @Enumerated
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column()
     private TaskPriority priority;
 
     @ManyToOne
@@ -42,7 +45,7 @@ public class TasksEntity {
 
     public TasksEntity() { }
 
-    public TasksEntity(Long taskId, String taskTitle, String taskDesk, Date taskInicio, Date taskFim, TaskStatus status, TaskPriority priority) {
+    public TasksEntity(Long taskId, String taskTitle, String taskDesk, LocalDateTime taskInicio, LocalDateTime taskFim, TaskStatus status, TaskPriority priority) {
         this.taskId = taskId;
         this.taskTitle = taskTitle;
         this.taskDesk = taskDesk;
@@ -76,19 +79,19 @@ public class TasksEntity {
         this.taskDesk = taskDesk;
     }
 
-    public Date getTaskInicio(LocalDateTime localDateTime) {
+    public LocalDateTime getTaskInicio(LocalDateTime localDateTime) {
         return taskInicio;
     }
 
-    public void setTaskInicio(Date taskInicio) {
+    public void setTaskInicio(LocalDateTime taskInicio) {
         this.taskInicio = taskInicio;
     }
 
-    public Date getTaskFim() {
+    public LocalDateTime getTaskFim() {
         return taskFim;
     }
 
-    public void setTaskFim(Date taskFim) {
+    public void setTaskFim(LocalDateTime taskFim) {
         this.taskFim = taskFim;
     }
 
@@ -108,9 +111,4 @@ public class TasksEntity {
         this.priority = priority;
     }
 
-    public LocalDateTime dataHora() {
-        LocalDateTime ldt = LocalDateTime.now();
-        DateTimeFormatter formatado = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        return LocalDateTime.parse(ldt.format(formatado));
-    }
 }
