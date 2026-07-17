@@ -7,7 +7,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -111,4 +110,11 @@ public class TasksEntity {
         this.priority = priority;
     }
 
+    public UsuarioEntity getUsuarioEntity() {
+        return usuarioEntity;
+    }
+
+    public void taskUsuarioEntity(UsuarioEntity usuarioEntity) {
+        this.usuarioEntity = usuarioEntity;
+    }
 }

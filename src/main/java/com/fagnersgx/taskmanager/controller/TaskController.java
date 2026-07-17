@@ -1,5 +1,6 @@
 package com.fagnersgx.taskmanager.controller;
 
+import com.fagnersgx.taskmanager.dto.CreateTaskDTO;
 import com.fagnersgx.taskmanager.entity.TasksEntity;
 import com.fagnersgx.taskmanager.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,18 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping(path="/addTask")
-    public ResponseEntity<TasksEntity> createTask(@RequestBody TasksEntity novaTasksEntity) {
-        TasksEntity novoTask = taskService.salvarTask(novaTasksEntity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoTask);
+    @PostMapping(path="/{usuarioId}/addTask")
+    public ResponseEntity<TasksEntity> createTask(@RequestBody CreateTaskDTO dto,
+                                                  @PathVariable Long usuarioId) {
+        TasksEntity task = new TasksEntity();
+
+        task.setTaskTitle(dto.taskTitle());
+        task.setTaskDesk(dto.taskDesk());
+        task.setStatus(dto.status());
+        task.setPriority(dto.priority());
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(taskService.salvarTask(task, usuarioId));
     }
 
     @GetMapping(path="/listTask")
